@@ -28,7 +28,7 @@ function createCard(req) {
         <div><strong>${req.ks}</strong></div>
         <div>ГПА №${req.num_gpa}</div>
         <div style="margin-top: 5px; font-size: 0.9em; color: #555;">
-          Время запуска:<br>${new Date(req.request_datetime).toLocaleTimeString().slice(0, 5)}
+          Время запуска:<br>${new Date(req.request_datetime).toLocaleDateString('ru-RU')} ${new Date(req.request_datetime).toLocaleTimeString('ru-RU').slice(0, 5)}
         </div>
       </div>
       <div style="width: 65%; padding-left: 8px;">
