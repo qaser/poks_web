@@ -7,34 +7,63 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1 id="current-date-header">План запусков ГПА</h1>
-  </header>
-  <main class="dashboard">
-    <section id="pending" class="column">
-      <h2>Ожидают согласования</h2>
-      <div class="scroll-inner" id="pending-inner">
-        <div class="requests-list"></div>
-      </div>
-    </section>
-    <section id="approved" class="column">
-      <h2>Согласованные</h2>
-      <div class="scroll-inner" id="approved-inner">
-        <div class="requests-list"></div>
-      </div>
-    </section>
-    <section id="completed" class="column">
-      <h2>Завершенные</h2>
-      <div class="scroll-inner" id="completed-inner">
-        <div class="requests-list"></div>
-      </div>
-    </section>
-  </main>
+
+  <div id="auth-screen">
+    <div style="text-align:center; padding: 20vh 20px;">
+      <h2>Введите пароль</h2>
+      <input type="password" id="password-input" style="padding: 10px; font-size: 1.2em;" />
+      <button onclick="checkPassword()" style="padding: 10px 20px; font-size: 1em; margin-left: 10px;">Войти</button>
+      <div id="error-msg" style="color: red; margin-top: 10px;"></div>
+    </div>
+  </div>
+
+  <div id="content" style="display: none;">
+    <header>
+        <h1 id="current-date-header">План запусков ГПА</h1>
+    </header>
+    <main class="dashboard">
+        <section id="pending" class="column">
+        <h2>Ожидают согласования</h2>
+        <div class="scroll-inner" id="pending-inner">
+            <div class="requests-list"></div>
+        </div>
+        </section>
+        <section id="approved" class="column">
+        <h2>Согласованные</h2>
+        <div class="scroll-inner" id="approved-inner">
+            <div class="requests-list"></div>
+        </div>
+        </section>
+        <section id="completed" class="column">
+        <h2>Завершенные</h2>
+        <div class="scroll-inner" id="completed-inner">
+            <div class="requests-list"></div>
+        </div>
+        </section>
+    </main>
+  </div>
   <script src="script.js"></script>
   <script>
     const header = document.getElementById('current-date-header');
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const today = new Date().toLocaleDateString('ru-RU', options);
+    const correctPassword = 'Poeks123!'; // Задай свой пароль здесь
+
+    function checkPassword() {
+      const input = document.getElementById('password-input').value;
+      const errorMsg = document.getElementById('error-msg');
+      if (input === correctPassword) {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } else {
+        errorMsg.textContent = 'Неверный пароль';
+      }
+    }
+
+    // Опционально: вход по Enter
+    document.getElementById('password-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPassword();
+    });
     header.textContent += ` на ${today}`;
 </script>
 </body>
