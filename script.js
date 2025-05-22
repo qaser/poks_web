@@ -15,6 +15,16 @@ function createCard(req) {
   div.className = 'card';
   div.dataset.id = req.req_num || req._id;
 
+  // Определяем путь к иконке по типу ГПА
+  const gpaIcons = {
+    'Стационарные ГПА (ГТК-10-4)': 'gtk.png',
+    'Стационарные ГПА': 'stationary.png',
+    'ГПА с авиа. приводом': 'avia.png',
+    'ГПА с судовым приводом': 'ship.png',
+  };
+
+  const iconSrc = gpaIcons[req.gpa_type] || 'default.png';
+
   // Цвет фона для completed
   if (req.status === 'approved' && req.is_complete === true) {
     div.style.backgroundColor = req.is_fail ? '#f8d7da' : '#d4edda'; // мягкий красный / зелёный
@@ -22,20 +32,22 @@ function createCard(req) {
   }
 
   // Верстка карточки: две колонки — 1/3 слева, 2/3 справа
-  div.innerHTML = `
-    <div style="display: flex; flex-direction: row; width: 100%;">
-      <div style="width: 35%; padding-right: 8px; border-right: 1px solid #ccc;">
-        <div><strong>${req.ks}</strong></div>
-        <div>ГПА №${req.num_gpa}</div>
-        <div style="margin-top: 5px; font-size: 0.9em; color: #555;">
-          Время запуска:<br>${new Date(req.request_datetime).toLocaleDateString('ru-RU')} ${new Date(req.request_datetime).toLocaleTimeString('ru-RU').slice(0, 5)}
+    div.innerHTML = `
+    <div class="request-container">
+        <div class="request-left-column">
+        <div class="request-title">${req.ks} ГПА №${req.num_gpa}</div>
+        <div class="request-row">
+            <img class="request-icon" src="${iconSrc}" alt="icon">
+            <div class="request-meta">
+                Время запуска:<br>${new Date(req.request_datetime).toLocaleDateString('ru-RU')} ${new Date(req.request_datetime).toLocaleTimeString('ru-RU').slice(0, 5)}
+            </div>
         </div>
-      </div>
-      <div style="width: 65%; padding-left: 8px;">
-        ${req.text || '<i>Без описания</i>'}
-      </div>
+        </div>
+        <div class="request-right-column">
+        ${req.text || '<span class="request-description">Без описания</span>'}
+        </div>
     </div>
-  `;
+    `;
 
   return div;
 }
