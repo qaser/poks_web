@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Заявки ГПА</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1 id="current-date-header">План запусков ГПА</h1>
+  </header>
+  <main class="dashboard">
+    <section id="pending" class="column">
+      <h2>Ожидают согласования</h2>
+      <div class="scroll-inner" id="pending-inner">
+        <div class="requests-list"></div>
+      </div>
+    </section>
+    <section id="approved" class="column">
+      <h2>Согласованные</h2>
+      <div class="scroll-inner" id="approved-inner">
+        <div class="requests-list"></div>
+      </div>
+    </section>
+    <section id="completed" class="column">
+      <h2>Завершенные</h2>
+      <div class="scroll-inner" id="completed-inner">
+        <div class="requests-list"></div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+  <script>
+    const header = document.getElementById('current-date-header');
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const today = new Date().toLocaleDateString('ru-RU', options);
+    header.textContent += ` на ${today}`;
+</script>
+</body>
+</html>
