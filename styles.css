@@ -21,12 +21,16 @@ header {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   text-align: center;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
   font-size: 32px;
   font-weight: 600;
   color: #333;
+  margin: auto;
 }
 
 /* Дэшборд */
@@ -55,13 +59,12 @@ header h1 {
 }
 
 .column h2 {
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 12px;
+  font-size: 20px;
+  margin-bottom: 10px;
   text-align: center;
   color: #444;
   border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   flex-shrink: 0;
 }
 
@@ -80,11 +83,12 @@ header h1 {
 .card {
   background-color: #fefefe;
   border: 1px solid #dcdcdc;
+  border-left: 6px solid transparent; /* по умолчанию */
   border-radius: 6px;
   padding: 7px;
   margin-bottom: 5px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  transition: background-color 0.4s, transform 0.3s;
+  transition: background-color 0.4s, transform 0.3s, border-left-color 0.4s;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -143,7 +147,6 @@ header h1 {
 }
 
 .request-meta {
-  /* margin-left: 10px; */
   font-size: 0.9em;
   color: #555;
 }
@@ -159,4 +162,27 @@ header h1 {
 
 .request-row {
   display: flex;
+}
+
+.gpa-legend {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 4px 12px; /* вертикальный и горизонтальный отступы */
+  margin-right: 10px;
+  font-size: 0.7em;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
 }

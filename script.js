@@ -15,21 +15,22 @@ function createCard(req) {
   div.className = 'card';
   div.dataset.id = req.req_num || req._id;
 
-  // Определяем путь к иконке по типу ГПА
-  const gpaIcons = {
-    'Стационарные ГПА (ГТК-10-4)': 'gtk.png',
-    'Стационарные ГПА': 'stationary.png',
-    'ГПА с авиа. приводом': 'avia.png',
-    'ГПА с судовым приводом': 'ship.png',
-  };
+const gpaTypes = {
+  'Стационарные ГПА (ГТК-10-4)': '#ffbb33',  // насыщенный янтарный
+  'Стационарные ГПА': '#33b5e5',             // ярко-голубой
+  'ГПА с авиа. приводом': 'gray',         // яркий зелёный
+  'ГПА с судовым приводом': '#9966cc'        // розово-красный
+};
 
-  const iconSrc = gpaIcons[req.gpa_type] || 'default.png';
+  const gpaColor = gpaTypes[req.gpa_type] || '#999';
+
 
   // Цвет фона для completed
   if (req.status === 'approved' && req.is_complete === true) {
-    div.style.backgroundColor = req.is_fail ? '#f8d7da' : '#d4edda'; // мягкий красный / зелёный
+    div.style.backgroundColor = req.is_fail ? '#fdebec' : '#e9f7ee'; // мягкий красный / зелёный
     div.style.border = '1px solid ' + (req.is_fail ? '#f5c6cb' : '#c3e6cb');
   }
+  div.style.borderLeft = `6px solid ${gpaColor}`;
 
   // Верстка карточки: две колонки — 1/3 слева, 2/3 справа
     div.innerHTML = `
