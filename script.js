@@ -37,7 +37,6 @@ function createCard(req) {
         <div class="request-left-column">
         <div class="request-title">${req.ks} ГПА №${req.num_gpa}</div>
         <div class="request-row">
-            <img class="request-icon" src="${iconSrc}" alt="icon">
             <div class="request-meta">
                 Время запуска:<br>${new Date(req.request_datetime).toLocaleDateString('ru-RU')} ${new Date(req.request_datetime).toLocaleTimeString('ru-RU').slice(0, 5)}
             </div>
