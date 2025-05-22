@@ -1,4 +1,4 @@
-const API_URL = 'http://212.193.48.114/api/requests/'; // Замените на актуальный
+const API_URL = 'https://poeks.online/api/requests/'; // Замените на актуальный
 
 const leftCol = document.getElementById('pending');
 const centerCol = document.getElementById('approved');
