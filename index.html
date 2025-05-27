@@ -8,24 +8,25 @@
 </head>
 <body>
 
-  <div id="auth-screen">
+  <!-- <div id="auth-screen">
     <div style="text-align:center; padding: 20vh 20px;">
       <h2>Введите пароль</h2>
       <input type="password" id="password-input" style="padding: 10px; font-size: 1.2em;" />
       <button onclick="checkPassword()" style="padding: 10px 20px; font-size: 1em; margin-left: 10px;">Войти</button>
       <div id="error-msg" style="color: red; margin-top: 10px;"></div>
     </div>
-  </div>
+  </div> -->
 
-  <div id="content" style="display: none;">
+  <div id="content">
+  <!-- <div id="content" style="display: none;"> -->
     <header>
         <h1 id="current-date-header">План запусков ГПА</h1>
-        <div class="gpa-legend">
+        <!-- <div class="gpa-legend">
             <div class="legend-item"><span class="legend-color" style="background-color: #ffbb33;"></span> Стационарные ГПА (ГТК-10-4)</div>
             <div class="legend-item"><span class="legend-color" style="background-color: #33b5e5;"></span> Стационарные ГПА</div>
             <div class="legend-item"><span class="legend-color" style="background-color: gray"></span> ГПА с авиа. приводом</div>
             <div class="legend-item"><span class="legend-color" style="background-color: #9966cc;"></span> ГПА с судовым приводом</div>
-        </div>
+        </div> -->
     </header>
     <main class="dashboard">
         <section id="pending" class="column">
@@ -50,10 +51,9 @@
   </div>
   <script src="script.js"></script>
   <script>
-    const header = document.getElementById('current-date-header');
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    const today = new Date().toLocaleDateString('ru-RU', options);
-    const correctPassword = 'Poeks123!';
+
+    const correctPassword = '123';
+    // const correctPassword = 'Poeks123!';
 
     function checkPassword() {
       const input = document.getElementById('password-input').value;
@@ -65,12 +65,10 @@
         errorMsg.textContent = 'Неверный пароль';
       }
     }
-
-    // Опционально: вход по Enter
     document.getElementById('password-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkPassword();
     });
-    header.textContent += ` на ${today}`;
+
 </script>
 </body>
 </html>
