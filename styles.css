@@ -69,6 +69,7 @@ header h1 {
 
 .scroll-inner {
   flex-grow: 1;
+  transition: height 0.3s ease;
   overflow: hidden;
   position: relative;
 }
@@ -76,6 +77,9 @@ header h1 {
 .requests-list {
   flex: 1;
   overflow-y: auto;
+  transition: transform 0.5s ease;
+  will-change: transform;
+  /* position: relative; */
 }
 
 /* Карточки заявок */
@@ -186,4 +190,51 @@ header h1 {
 .card.overdue {
   background-color: #fdebec !important;
   border: 1px solid #f5c6cb !important;
+}
+
+
+.requests-list-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.page {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+}
+
+
+.stages-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 70px; /* Отступ от логотипа */
+  display: flex;
+  gap: 4px;
+}
+
+.stage {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+}
+
+.stage-pending {
+  background-color: #e0e0e0; /* Серый - стадия не начата */
+}
+
+.stage-inwork {
+  background-color: #ffc107; /* Желтый - стадия в работе */
+}
+
+.stage-completed {
+  background-color: #28a745; /* Зеленый - стадия завершена */
+}
+
+.stage-rejected {
+  background-color: #dc3545; /* Красный - стадия отклонена */
 }

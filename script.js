@@ -43,9 +43,9 @@ function createCard(req) {
     }
   }
 
-  // 2. Для approved: красный фон если прошло время notification_datetime + 3 часа
+  // 2. Для approved: красный фон если прошло время notification_datetime
   if (req.status === 'approved' && !req.is_complete && notificationTime) {
-    const deadline = new Date(notificationTime.getTime() + 3 * 60 * 60 * 1000); // плюс 3 часа
+    const deadline = new Date(notificationTime.getTime());
     if (now > deadline) {
       div.style.backgroundColor = '#fde8e8';
       div.style.border = '1px solid #f5c6cb';
@@ -66,6 +66,27 @@ function createCard(req) {
     descriptionContent += `<div class="fail-reason">${req.fail_reason}</div>`;
   }
 
+  // Создаем индикатор стадий для pending-заявок
+  let stagesIndicator = '';
+  if (req.status === 'inwork' && req.req_type === 'with_approval' && req.num_stages) {
+    stagesIndicator = '<div class="stages-indicator">';
+    for (let i = 1; i <= req.num_stages; i++) {
+      const stage = req.stages && req.stages[i.toString()];
+      let statusClass = 'stage-pending';
+      if (stage) {
+        if (stage.status === 'pass' || stage.status === 'apply') {
+          statusClass = 'stage-completed';
+        } else if (stage.status === 'reject') {
+          statusClass = 'stage-rejected';
+        } else if (stage.status === 'inwork') {
+          statusClass = 'stage-inwork';
+        }
+      }
+      stagesIndicator += `<div class="stage ${statusClass}"></div>`;
+    }
+    stagesIndicator += '</div>';
+  }
+
   div.innerHTML = `
     <div class="request-container">
         <div class="request-left-column">
@@ -74,6 +95,7 @@ function createCard(req) {
             <div class="request-data">
                 ${requestTime.toLocaleDateString('ru-RU')} ${requestTime.toLocaleTimeString('ru-RU').slice(0, 5)}
             </div>
+            ${stagesIndicator}
         </div>
         <div class="request-center-column">
             ${descriptionContent}
@@ -95,27 +117,67 @@ function updateColumn(columnElem, newMap, oldMap, status) {
   const inner = columnElem.querySelector('.requests-list');
   const newIds = new Set(newMap.keys());
 
-  // Удаление исчезнувших карточек
+  // 1. Удаление исчезнувших карточек
   oldMap.forEach((_, id) => {
-    if (!newIds.has(id)) {
-      const card = inner.querySelector(`.card[data-id="${id}"]`);
-      if (card) {
-        card.classList.add('fade-out');
-        setTimeout(() => card.remove(), 500);
+      if (!newIds.has(id)) {
+          const card = inner.querySelector(`.card[data-id="${id}"]`);
+          if (card) {
+              card.classList.add('fade-out');
+              setTimeout(() => card.remove(), 500);
+          }
       }
-    }
   });
 
-  // Добавление новых карточек
+  // 2. Обновление существующих и добавление новых карточек
   newMap.forEach((req, id) => {
-    const existing = inner.querySelector(`.card[data-id="${id}"]`);
-    if (!existing) {
-      const card = createCard(req);
-      card.classList.add('highlight');
-      inner.appendChild(card);
-      setTimeout(() => card.classList.remove('highlight'), 1000);
-    }
+      const existing = inner.querySelector(`.card[data-id="${id}"]`);
+
+      if (existing) {
+          // Если карточка уже есть, обновляем её стили (например, цвет)
+          updateCardStyle(existing, req); // <- Новая функция
+      } else {
+          // Если карточки нет, создаём новую
+          const card = createCard(req);
+          card.classList.add('highlight');
+          inner.appendChild(card);
+          setTimeout(() => card.classList.remove('highlight'), 1000);
+      }
   });
+}
+
+// Новая функция для обновления стилей существующей карточки
+function updateCardStyle(card, req) {
+  const now = new Date();
+  const requestTime = new Date(req.request_datetime);
+  const notificationTime = req.notification_datetime ? new Date(req.notification_datetime) : null;
+
+  // Сброс стилей перед проверкой
+  card.style.backgroundColor = '';
+  card.style.border = '';
+
+  // 1. Для pending: красный фон, если прошло время request_datetime - 1 час
+  if (req.status === 'inwork' && req.req_type === 'with_approval') {
+      const deadline = new Date(requestTime.getTime() - 60 * 60 * 1000);
+      if (now > deadline) {
+          card.style.backgroundColor = '#fde8e8';
+          card.style.border = '1px solid #f5c6cb';
+      }
+  }
+
+  // 2. Для approved: красный фон, если прошло время notification_datetime
+  if (req.status === 'approved' && !req.is_complete && notificationTime) {
+      const deadline = new Date(notificationTime.getTime());
+      if (now > deadline) {
+          card.style.backgroundColor = '#fde8e8';
+          card.style.border = '1px solid #f5c6cb';
+      }
+  }
+
+  // 3. Для completed: цвет в зависимости от is_fail
+  if (req.status === 'approved' && req.is_complete) {
+      card.style.backgroundColor = req.is_fail ? '#fde8e8' : '#e9f7ee';
+      card.style.border = '1px solid ' + (req.is_fail ? '#f5c6cb' : '#c3e6cb');
+  }
 }
 
 async function fetchDataAndUpdate() {

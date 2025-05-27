@@ -8,17 +8,17 @@
 </head>
 <body>
 
-  <!-- <div id="auth-screen">
+  <div id="auth-screen">
     <div style="text-align:center; padding: 20vh 20px;">
       <h2>Введите пароль</h2>
       <input type="password" id="password-input" style="padding: 10px; font-size: 1.2em;" />
       <button onclick="checkPassword()" style="padding: 10px 20px; font-size: 1em; margin-left: 10px;">Войти</button>
       <div id="error-msg" style="color: red; margin-top: 10px;"></div>
     </div>
-  </div> -->
+  </div>
 
-  <div id="content">
-  <!-- <div id="content" style="display: none;"> -->
+  <!-- <div id="content"> -->
+  <div id="content" style="display: none;">
     <header>
         <h1 id="current-date-header">План запусков ГПА</h1>
         <!-- <div class="gpa-legend">
@@ -32,19 +32,25 @@
         <section id="pending" class="column">
         <h2>Ожидают согласования</h2>
         <div class="scroll-inner" id="pending-inner">
-            <div class="requests-list"></div>
+            <div class="requests-list-wrapper">
+                <div class="requests-list"></div>
+            </div>
         </div>
         </section>
         <section id="approved" class="column">
         <h2>Согласованные</h2>
         <div class="scroll-inner" id="approved-inner">
-            <div class="requests-list"></div>
+            <div class="requests-list-wrapper">
+                <div class="requests-list"></div>
+            </div>
         </div>
         </section>
         <section id="completed" class="column">
         <h2>Завершенные</h2>
         <div class="scroll-inner" id="completed-inner">
-            <div class="requests-list"></div>
+            <div class="requests-list-wrapper">
+                <div class="requests-list"></div>
+            </div>
         </div>
         </section>
     </main>
@@ -52,8 +58,8 @@
   <script src="script.js"></script>
   <script>
 
-    const correctPassword = '123';
-    // const correctPassword = 'Poeks123!';
+    // const correctPassword = '123';
+    const correctPassword = 'Poeks123!';
 
     function checkPassword() {
       const input = document.getElementById('password-input').value;
