@@ -1,5 +1,5 @@
-// const API_URL = 'https://poeks.online/api/requests/';
-const API_URL = 'http://127.0.0.1:8000//api/requests/';
+const API_URL = 'https://poeks.online/api/requests/';
+// const API_URL = 'http://127.0.0.1:8000//api/requests/';
 
 const leftCol = document.getElementById('pending');
 const centerCol = document.getElementById('approved');
